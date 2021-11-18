@@ -22,7 +22,7 @@ session_start();
     <div class="collapse navbar-collapse" id="navbarColor02">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item ">
-                <a class="nav-link" href="#">Главная</a>
+                <a class="nav-link" href="/">Главная</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto">
