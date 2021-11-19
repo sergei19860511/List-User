@@ -117,11 +117,13 @@ function setUserInformation($userId, $userName, $userJob, $userPhone, $userAddre
 function setStatusUser($userId, $status)
 {
     global $db;
-    $sql = 'INSERT INTO status_user (user_id, status) VALUES (?, ?)';
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam(1, $userId);
-    $stmt->bindParam(2, $status);
-    $stmt->execute();
+    if ($userId) {
+        $sql = 'INSERT INTO status_user (user_id, status) VALUES (?, ?)';
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(1, $userId);
+        $stmt->bindParam(2, $status);
+        $stmt->execute();
+    }
 }
 
 function getStatusUser($userId)
@@ -143,13 +145,15 @@ function getStatusUser($userId)
 function setSocialLinksUser($userId, $vk, $telegram, $instagram)
 {
     global $db;
-    $sql = 'INSERT INTO social_links (user_id, vk, telegram, instagram) VALUES (?, ?, ?, ?)';
-    $stmt = $db->prepare($sql);
-    $stmt->bindParam(1, $userId);
-    $stmt->bindParam(2, $vk);
-    $stmt->bindParam(3, $telegram);
-    $stmt->bindParam(4, $instagram);
-    $stmt->execute();
+    if ($userId) {
+        $sql = 'INSERT INTO social_links (user_id, vk, telegram, instagram) VALUES (?, ?, ?, ?)';
+        $stmt = $db->prepare($sql);
+        $stmt->bindParam(1, $userId);
+        $stmt->bindParam(2, $vk);
+        $stmt->bindParam(3, $telegram);
+        $stmt->bindParam(4, $instagram);
+        $stmt->execute();
+    }
 }
 
 function uploadAvaUser($userId, $ava)
@@ -164,14 +168,16 @@ function uploadAvaUser($userId, $ava)
     $avaName = uniqid().'.'.$exp;
     $newPath = __DIR__. '/img/imgAvatar/'.$avaName;
     if (!in_array($exp, $types)) {
-        return 'ERROR_TYPE';
+        return false;
     } elseif ($ava['avatar']['size'] == 0) {
-        return 'ERROR_SIZE';
+        return false;
     } elseif (move_uploaded_file($ava['avatar']['tmp_name'], $newPath)) {
         $sql = 'INSERT INTO avatar_user (user_id, avatar) VALUES (?, ?)';
         $stmt = $db->prepare($sql);
         $stmt->bindParam(1, $userId);
         $stmt->bindParam(2, $avaName);
-        $stmt->execute();
+        return $stmt->execute();
+    } else {
+        return false;
     }
 }

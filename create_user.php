@@ -14,7 +14,6 @@ require 'header.php';
         </div>
         <?php
         displayFlashMessage('danger');
-        displayFlashMessage('success');
         ?>
         <form action="handler_user_information.php" method="post" enctype="multipart/form-data">
             <div class="row">
