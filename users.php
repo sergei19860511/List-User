@@ -61,6 +61,9 @@ require 'function.php';
                                 </a>
                                 <?php if (checkUserRole()): ?>
                                 <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="page_profile_user.php?id=<?= $user['id'] ?>">
+                                        <i class="fa fa-eye"></i>
+                                        Просмотреть</a>
                                     <a class="dropdown-item" href="edit.php?id=<?= $user['id'] ?>">
                                         <i class="fa fa-edit"></i>
                                         Редактировать</a>
@@ -81,6 +84,9 @@ require 'function.php';
                                 </div>
                                 <? elseif ($user['email'] == $_SESSION['email']): ?>
                                     <div class="dropdown-menu">
+                                        <a class="dropdown-item" href="page_profile_user.php?id=<?= $user['id'] ?>">
+                                            <i class="fa fa-edit"></i>
+                                            Просмотреть</a>
                                         <a class="dropdown-item" href="edit.php?id=<?= $user['id'] ?>">
                                             <i class="fa fa-edit"></i>
                                             Редактировать</a>
