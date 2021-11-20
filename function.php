@@ -57,6 +57,7 @@ function checkUser($email, $password)
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($email === $user['email'] && password_verify($password, $user['pass'])) {
         $_SESSION['email'] = $user['email'];
+        $_SESSION['id'] = $user['id'];
         return true;
     }
     return  false;
@@ -70,10 +71,17 @@ function is_not_logged_in()
     return false;
 }
 
+function is_author($loginId, $editId)
+{
+    if ($loginId == $editId) {
+        return true;
+    }
+    return false;
+}
+
 function checkUserRole()
 {
     global $db;
-
     $sql = 'SELECT * FROM users WHERE email = ?';
     $stmt = $db->prepare($sql);
     $stmt->bindParam(1, $_SESSION['email']);
@@ -98,6 +106,20 @@ function getUserAll()
     return $users;
 }
 
+function getUserById($userId)
+{
+    global $db;
+    $sql = 'SELECT email, name, jobs, phone, address, avatar, vk, telegram, instagram FROM users
+            LEFT JOIN information_user ON information_user.user_id = users.id
+            LEFT JOIN avatar_user ON avatar_user.user_id = users.id
+            LEFT JOIN social_links ON social_links.user_id = users.id WHERE users.id = ?';
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(1, $userId);
+    $stmt->execute();
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $user;
+}
+
 function setUserInformation($userId, $userName, $userJob, $userPhone, $userAddress)
 {
     global $db;
@@ -112,6 +134,19 @@ function setUserInformation($userId, $userName, $userJob, $userPhone, $userAddre
         return $stmt->execute();
     }
     return false;
+}
+
+function updateUserInformation($name, $jobs, $phone, $address, $id)
+{
+    global $db;
+    $sql = 'UPDATE information_user SET name = ?, jobs = ?, phone = ?, address = ? WHERE user_id = ?';
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(1, $name);
+    $stmt->bindParam(2, $jobs);
+    $stmt->bindParam(3, $phone);
+    $stmt->bindParam(4, $address);
+    $stmt->bindParam(5, $id);
+    return $stmt->execute();
 }
 
 function setStatusUser($userId, $status)

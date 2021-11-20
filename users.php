@@ -1,5 +1,4 @@
 <?php
-session_start();
 require 'function.php';
  if (is_not_logged_in()) {
      redirect('/login_user.php');
@@ -9,6 +8,7 @@ require 'function.php';
     <main id="js-page-content" role="main" class="page-content mt-3">
         <?php
         displayFlashMessage('success');
+        displayFlashMessage('danger');
         ?>
         <div class="subheader">
             <h1 class="subheader-title">
@@ -61,16 +61,16 @@ require 'function.php';
                                 </a>
                                 <?php if (checkUserRole()): ?>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="edit.html?<?= $user['id'] ?>">
+                                    <a class="dropdown-item" href="edit.php?id=<?= $user['id'] ?>">
                                         <i class="fa fa-edit"></i>
                                         Редактировать</a>
-                                    <a class="dropdown-item" href="security.html?<?= $user['id'] ?>">
+                                    <a class="dropdown-item" href="security.html?id=<?= $user['id'] ?>">
                                         <i class="fa fa-lock"></i>
                                         Безопасность</a>
-                                    <a class="dropdown-item" href="status.html?<?= $user['id'] ?>">
+                                    <a class="dropdown-item" href="status.html?id=<?= $user['id'] ?>">
                                         <i class="fa fa-sun"></i>
                                         Установить статус</a>
-                                    <a class="dropdown-item" href="media.html?<?= $user['id'] ?>">
+                                    <a class="dropdown-item" href="media.html?id=<?= $user['id'] ?>">
                                         <i class="fa fa-camera"></i>
                                         Загрузить аватар
                                     </a>
@@ -81,16 +81,16 @@ require 'function.php';
                                 </div>
                                 <? elseif ($user['email'] == $_SESSION['email']): ?>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="edit.html?<?= $user['id'] ?>">
+                                        <a class="dropdown-item" href="edit.php?id=<?= $user['id'] ?>">
                                             <i class="fa fa-edit"></i>
                                             Редактировать</a>
-                                        <a class="dropdown-item" href="security.html?<?= $user['id'] ?>">
+                                        <a class="dropdown-item" href="security.html?id=<?= $user['id'] ?>">
                                             <i class="fa fa-lock"></i>
                                             Безопасность</a>
-                                        <a class="dropdown-item" href="status.html?<?= $user['id'] ?>">
+                                        <a class="dropdown-item" href="status.html?id=<?= $user['id'] ?>">
                                             <i class="fa fa-sun"></i>
                                             Установить статус</a>
-                                        <a class="dropdown-item" href="media.html?<?= $user['id'] ?>">
+                                        <a class="dropdown-item" href="media.html?id=<?= $user['id'] ?>">
                                             <i class="fa fa-camera"></i>
                                             Загрузить аватар
                                         </a>
