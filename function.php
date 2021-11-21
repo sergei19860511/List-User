@@ -109,7 +109,7 @@ function getUserAll()
 function getUserById($userId)
 {
     global $db;
-    $sql = 'SELECT email, name, jobs, phone, address, avatar, vk, telegram, instagram FROM users
+    $sql = 'SELECT email, pass, name, jobs, phone, address, avatar, vk, telegram, instagram FROM users
             LEFT JOIN information_user ON information_user.user_id = users.id
             LEFT JOIN avatar_user ON avatar_user.user_id = users.id
             LEFT JOIN social_links ON social_links.user_id = users.id WHERE users.id = ?';
@@ -146,6 +146,17 @@ function updateUserInformation($name, $jobs, $phone, $address, $id)
     $stmt->bindParam(3, $phone);
     $stmt->bindParam(4, $address);
     $stmt->bindParam(5, $id);
+    return $stmt->execute();
+}
+
+function updateAuthorized($email, $pass, $id)
+{
+    global $db;
+    $sql = 'UPDATE users SET email = ?, pass = ? WHERE id = ?';
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(1, $email);
+    $stmt->bindParam(2, $pass);
+    $stmt->bindParam(3, $id);
     return $stmt->execute();
 }
 

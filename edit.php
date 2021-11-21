@@ -4,7 +4,7 @@ if (is_not_logged_in()) {
     redirect('/login_user.php');
 }
 if (!checkUserRole() && !is_author($_SESSION['id'], $_GET['id'])) {
-    setFlashMessage('danger', 'Редактировать можно только свой профиль');
+    setFlashMessage('danger', 'Редактировать личные данные можно только в своём профиле');
     redirect('/users.php');
 }
 ?>
