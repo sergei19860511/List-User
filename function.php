@@ -266,3 +266,16 @@ function uploadAvaUser($userId, $ava)
         return false;
     }
 }
+
+function deleteUser($userId)
+{
+    global $db;
+    $sql = 'DELETE users, status_user, social_links, information_user, avatar_user FROM users
+            LEFT JOIN status_user ON status_user.user_id = users.id
+            LEFT JOIN social_links ON social_links.user_id = users.id
+            LEFT JOIN information_user ON information_user.user_id = users.id
+            LEFT JOIN avatar_user ON avatar_user.user_id = users.id WHERE users.id = ?';
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(1, $userId);
+    return $stmt->execute();
+}
