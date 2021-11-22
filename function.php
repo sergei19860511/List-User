@@ -267,8 +267,10 @@ function uploadAvaUser($userId, $ava)
     }
 }
 
-function deleteUser($userId)
+function deleteUser($userId, $avatar)
 {
+    $path = 'img/imgAvatar/'.$avatar;
+    unlink($path);
     global $db;
     $sql = 'DELETE users, status_user, social_links, information_user, avatar_user FROM users
             LEFT JOIN status_user ON status_user.user_id = users.id

@@ -1,7 +1,7 @@
 <?php
 require 'function.php';
-deleteUser($_GET['id']);
 $user = getUserById($_GET['id']);
+deleteUser($_GET['id'], $user['avatar']);
 
 if (checkUserRole()) {
     setFlashMessage('success', 'Профиль успешно удалён');
