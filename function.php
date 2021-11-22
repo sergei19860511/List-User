@@ -218,6 +218,20 @@ function setSocialLinksUser($userId, $vk, $telegram, $instagram)
     }
 }
 
+function hasAvatar($id)
+{
+    global $db;
+    $sql = 'SELECT avatar FROM avatar_user WHERE user_id = ?';
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(1, $id);
+    $stmt->execute();
+    $ava = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($ava) {
+        return true;
+    }
+    return false;
+}
+
 function uploadAvaUser($userId, $ava)
 {
     global $db;
@@ -226,6 +240,7 @@ function uploadAvaUser($userId, $ava)
     }
     $path = $ava['avatar']['name'];
     $exp = pathinfo($path, PATHINFO_EXTENSION);
+    $exp = strtolower($exp);
     $types = ['jpeg', 'jpg', 'png'];
     $avaName = uniqid().'.'.$exp;
     $newPath = __DIR__. '/img/imgAvatar/'.$avaName;
@@ -234,11 +249,19 @@ function uploadAvaUser($userId, $ava)
     } elseif ($ava['avatar']['size'] == 0) {
         return false;
     } elseif (move_uploaded_file($ava['avatar']['tmp_name'], $newPath)) {
-        $sql = 'INSERT INTO avatar_user (user_id, avatar) VALUES (?, ?)';
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam(1, $userId);
-        $stmt->bindParam(2, $avaName);
-        return $stmt->execute();
+        if (hasAvatar($userId)){
+            $sql = 'UPDATE avatar_user SET avatar = ? WHERE user_id = ?';
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam(1, $avaName);
+            $stmt->bindParam(2, $userId);
+            return $stmt->execute();
+        } else {
+            $sql = 'INSERT INTO avatar_user (user_id, avatar) VALUES (?, ?)';
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam(1, $userId);
+            $stmt->bindParam(2, $avaName);
+            return $stmt->execute();
+        }
     } else {
         return false;
     }
