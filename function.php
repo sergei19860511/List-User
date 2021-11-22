@@ -172,20 +172,36 @@ function setStatusUser($userId, $status)
     }
 }
 
+function updateUserStatus($status, $userId)
+{
+    global $db;
+    $sql = 'UPDATE status_user SET status = ? WHERE user_id = ?';
+    $stmt = $db->prepare($sql);
+    $stmt->bindParam(1, $status);
+    $stmt->bindParam(2, $userId);
+    return $stmt->execute();
+}
+
 function getStatusUser($userId)
 {
     global $db;
+    $status = [
+        'success' => 'Онлайн',
+        'warning' => 'Отошел',
+        'danger' => 'Не беспокоить',
+    ];
+
     $sql = 'SELECT status FROM status_user WHERE user_id = ?';
     $stmt = $db->prepare($sql);
     $stmt->bindParam(1, $userId);
     $stmt->execute();
     $statusUser = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($statusUser['status'] == 'Отошел') {
-        return 'warning';
-    } elseif ($statusUser['status'] == 'Не беспокоить') {
-        return 'danger';
+    foreach ($status as $kei => $value) {
+        if ($statusUser['status'] == $value) {
+            return [$kei, $value];
+
+        }
     }
-    return 'success';
 }
 
 function setSocialLinksUser($userId, $vk, $telegram, $instagram)

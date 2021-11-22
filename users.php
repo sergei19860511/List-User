@@ -48,7 +48,7 @@ require 'function.php';
                 <div id="c_1" class="card border shadow-0 mb-g shadow-sm-hover" data-filter-tags="oliver kopyov">
                     <div class="card-body border-faded border-top-0 border-left-0 border-right-0 rounded-top">
                         <div class="d-flex flex-row align-items-center">
-                                <span class="status status-<?= $statusUser ?> mr-3">
+                                <span class="status status-<?= $statusUser[0] ?> mr-3">
                                     <span class="rounded-circle profile-image d-block "
                                           style="background-image:url('img/imgAvatar/<?= empty($user['avatar']) ? 'no-avatar.png' : $user['avatar'] ?>'); background-size: cover;"></span>
                                 </span>
@@ -70,7 +70,7 @@ require 'function.php';
                                     <a class="dropdown-item" href="security.php?id=<?= $user['id'] ?>">
                                         <i class="fa fa-lock"></i>
                                         Безопасность</a>
-                                    <a class="dropdown-item" href="status.html?id=<?= $user['id'] ?>">
+                                    <a class="dropdown-item" href="status.php?id=<?= $user['id'] ?>">
                                         <i class="fa fa-sun"></i>
                                         Установить статус</a>
                                     <a class="dropdown-item" href="media.html?id=<?= $user['id'] ?>">
@@ -93,7 +93,7 @@ require 'function.php';
                                         <a class="dropdown-item" href="security.php?id=<?= $user['id'] ?>">
                                             <i class="fa fa-lock"></i>
                                             Безопасность</a>
-                                        <a class="dropdown-item" href="status.html?id=<?= $user['id'] ?>">
+                                        <a class="dropdown-item" href="status.php?id=<?= $user['id'] ?>">
                                             <i class="fa fa-sun"></i>
                                             Установить статус</a>
                                         <a class="dropdown-item" href="media.html?id=<?= $user['id'] ?>">
