@@ -55,7 +55,7 @@ require 'header.php';
                                     <input type="text" name="address" id="simpleinput" class="form-control" value="<?= $user['address'] ?>">
                                 </div>
                                 <div class="col-md-12 mt-3 d-flex flex-row-reverse">
-                                    <button class="btn btn-warning">Редактировать</button>
+                                    <button type="submit" class="btn btn-warning">Редактировать</button>
                                 </div>
                             </div>
                         </div>
